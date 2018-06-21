@@ -1,10 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<!-- HOME -->
+<div style="text-align:center" *ngIf="!check">
   <h1>
     Welcome to {{ title }}!
   </h1>
   <img width="300" alt="CityTemperature Logo" src="../assets/images/thermometer.jpeg">
+  <button type="button" class="btn btn-info" (click)="showCities()">Check Temperatures</button>
 </div>
-<button (click)="showCities()">Check Temperatures</button>
-<p *ngIf="check">ENTROOOOO</p>
+<p>http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=3ac17d3a731c0102bbc7694c0e2c5f96</p>
+<!-- TEMPERATURES VIEW -->
+<temperatures-component *ngIf="check"></temperatures-component>
+
 
