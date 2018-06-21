@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
+import{ TemperaturesComponent } from './modules/temperatures/temperatures.component';
+
 import { ApiServices } from  './services/temperatures.services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 
 // MAIN CLASS
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   // Component Properties
-  public title = 'CityTemperature';
+  public title = 'CitiesTemperature';
   public check = false;
   public info: Array<object>;
   public errorMessage: string;
@@ -22,13 +24,15 @@ export class AppComponent {
     'Santiago',
     'Buenos Aires',
     'Lima',
-    'Sao Paolo'
+    'Sao Paulo'
   ];
 
-  //Constructor
+  // Constructor
   constructor(
     private _services: ApiServices 
-  ) {}
+  ) {
+    this.info = [];
+  }
 
   // OnInit
   ngOnInit() {
@@ -39,16 +43,16 @@ export class AppComponent {
   private _getTemperatures() {
     this._cities.forEach((city) => {
       this._services.getTemperatures(city).subscribe(
-        res => {
-          this.info.push(res);
-          console.log('res', res);
-        },
-        error => {
-          this.showMessage = true;
-          this.errorMessage = 'Lo sentimos, no se ha podido realizar la acción. Por favor reporte el error';
-          console.error('error', error);
-        }
+        (res) => { this.info.push(res);
+                    console.log(res);
+                  },
+        error => console.error('error', error)
       );
     });
+  }
+
+  // Function to show cities temperatures screen
+  public showCities() {
+    this.check = true;
   }
 }
