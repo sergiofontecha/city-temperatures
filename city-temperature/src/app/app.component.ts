@@ -22,25 +22,26 @@ export class AppComponent implements OnInit {
   public info: Array<object>;
   public errorMessage: string;
   public showMessage = false;
-
-  private _cities = [
-    'Santiago',
-    'Buenos Aires',
-    'Lima',
-    'Sao Paulo'
-  ];
+  private _cities: Array<string>;
+  private _timer = setInterval(this._getTemperatures(), 180000);
 
   // Constructor
   constructor(
     private _services: ApiServices 
   ) {
     this.change = new EventEmitter(); 
+    this._cities = [
+      'Santiago',
+      'Buenos Aires',
+      'Lima',
+      'Sao Paulo'
+    ];
     this.info = [];
   }
 
   // OnInit
   ngOnInit() {
-    this._getNewTemperatures();
+    this._getTemperatures();
   }
 
   // Function to show cities temperatures screen
@@ -48,34 +49,20 @@ export class AppComponent implements OnInit {
     this.check = true;
   }
 
-   // Function to get cities temperatures
-  //  private _getTemperatures() {
-  //   this._cities.forEach((city) => {
-  //     this._services.getTemperatures(city).subscribe(
-  //       (res) => { this.info.push(res);
-  //                   console.log(res);
-  //                 },
-  //       error => console.error('error', error)
-  //     );
-  //   });
-  //   // this._getNewTemperatures();
-  // }
-
-  // Function to call Api each 3 minutes
-  private _getNewTemperatures() {
-    console.log('hola1');
-    setTimeout(function () {
-      this._cities.forEach((city) => {
-        this._services.getTemperatures(city).subscribe(
-          (res) => { this.info.push(res);
-                      console.log(res);
-                    },
-          error => console.error('error', error)
-        );
-      });
-
-      this._getNewTemperatures();
-    }, 5000);
+  // Function to get cities temperatures
+  private _getTemperatures() {
+    console.log('hola0', this._cities);
+    this._cities.forEach((city) => {
+      this._services.getTemperatures(city).subscribe(
+        (res) => { this.info.push(res);
+                    console.log(res);
+                  },
+        error => console.error('error', error),
+        // () => this._timer
+      );
+    });
+    console.log('res', this.info);
+    // this._timer;
   }
 
   // Function to emit updated temperatures
