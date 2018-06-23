@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   public errorMessage: string;
   public showMessage = false;
   private _cities: Array<string>;
-  private _timer = setInterval(this._getTemperatures(), 180000);
 
   // Constructor
   constructor(
@@ -36,12 +35,29 @@ export class AppComponent implements OnInit {
       'Lima',
       'Sao Paulo'
     ];
-    this.info = [];
+    this.info = [
+      {name: 'Santiago',
+       main: {
+         temp: '12'
+       }},
+      {name: 'Lima',
+      main: {
+        temp: '13'
+      }},
+      {name: 'Sao Paulo',
+      main: {
+        temp: '14'
+      }},
+      {name: 'Buenos Aires',
+      main: {
+        temp: '15'
+      }}
+    ];
   }
 
   // OnInit
   ngOnInit() {
-    this._getTemperatures();
+    // this._getTemperatures();
   }
 
   // Function to show cities temperatures screen
@@ -50,20 +66,14 @@ export class AppComponent implements OnInit {
   }
 
   // Function to get cities temperatures
-  private _getTemperatures() {
-    console.log('hola0', this._cities);
-    this._cities.forEach((city) => {
-      this._services.getTemperatures(city).subscribe(
-        (res) => { this.info.push(res);
-                    console.log(res);
-                  },
-        error => console.error('error', error),
-        // () => this._timer
-      );
-    });
-    console.log('res', this.info);
-    // this._timer;
-  }
+  // private _getTemperatures() {
+  //   this._cities.forEach((city) => {
+  //     this._services.getTemperatures(city).subscribe(
+  //       (res) =>  this.info.push(res),
+  //       error => console.error('error', error)
+  //     );
+  //   });
+  // }
 
   // Function to emit updated temperatures
   private _newData() {

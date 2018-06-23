@@ -1,0 +1,22 @@
+<!-- CURRENT TEMPERATURES VIEW -->
+<div class="main" *ngIf="home === false">
+  <div class="title">
+    <h1>Current temperatures</h1>
+  </div>
+  <ul class="container">
+    <li class="card" *ngFor="let city of citiesInfo">
+      <img class="card-img-top" src="...">
+      <div class="card-body">
+        <h5 class="card-title">{{city.name}}</h5>
+        <p class="card-text">The actual temperature in {{city.name}} is {{city.main.temp}} ºC</p>
+        <a href="#" class="btn btn-primary">Show Historical</a>
+      </div>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-primary" (click)="goHome()">Home</button>
+</div>
+
+<!-- HISTORICAL VIEW -->
+
+<!-- HOME VIEW -->
+<app-root *ngIf="home"></app-root>

@@ -13,7 +13,7 @@ export class ApiServices {
   }
 
   // Service to get cities temperatures
-  public getTemperatures(city: string): Observable<any> {
-    return this._http.get(`${this._URL}${city}${this.apiKey}`);
-  }
+  // public getTemperatures(city: string): Observable<any> {
+  //   return this._http.get(`${this._URL}${city}${this.apiKey}`);
+  // }
 }
