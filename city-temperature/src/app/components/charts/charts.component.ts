@@ -3,7 +3,7 @@ import { Chart } from 'chart.js';
 
 @Component({
   selector: 'chart-component',
-  templateUrl: './line-chart-demo.component.html'
+  templateUrl: './charts.component.html'
 })
 export class ChartComponent {
   // lineChart
