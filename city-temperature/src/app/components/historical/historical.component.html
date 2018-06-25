@@ -1,0 +1,20 @@
+<!-- HISTORICAL VIEW -->
+<div class="main" *ngIf="!leaveScreen">
+  <div class="title">
+    <h1>{{city}}´s historical temperatures</h1>
+  </div>
+  <div class="chart">
+    <canvas
+        baseChart
+        [chartType]="'line'"
+        [datasets]="chartData"
+        [labels]="chartLabels"
+        [options]="chartOptions"
+        [legend]="true">
+    </canvas>
+  </div>
+  <button type="button" class="btn btn-info" (click)="goToCitiesTemperatures()">Leave Historical</button>
+</div>
+
+<!-- CITIES TEMPERATURES VIEW -->
+<temperatures-component *ngIf="leaveScreen"></temperatures-component>

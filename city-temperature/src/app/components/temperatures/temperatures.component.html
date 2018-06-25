@@ -1,15 +1,14 @@
 <!-- CURRENT TEMPERATURES VIEW -->
-<div class="main" *ngIf="home === false">
+<div class="main" *ngIf="!home && !showHistorical">
   <div class="title">
     <h1>Current temperatures</h1>
   </div>
   <ul class="container">
-    <li class="card" *ngFor="let city of citiesInfo">
-      <img class="card-img-top" src="...">
+    <li class="card" *ngFor="let city of citiesNewInfo">
       <div class="card-body">
         <h5 class="card-title">{{city.name}}</h5>
-        <p class="card-text">The actual temperature in {{city.name}} is {{city.main.temp}} ºC</p>
-        <a href="#" class="btn btn-primary">Show Historical</a>
+        <p class="card-text">The actual temperature in {{city.name}} is <strong>{{city.main.temp}} ºC</strong></p>
+        <button type="button" class="btn btn-primary" (click)="getHistorical(city.name)">Show Historical</button>
       </div>
     </li>
   </ul>
@@ -17,6 +16,9 @@
 </div>
 
 <!-- HISTORICAL VIEW -->
+<historical-component *ngIf="showHistorical"
+  [city]="city">
+</historical-component>
 
 <!-- HOME VIEW -->
 <app-root *ngIf="home"></app-root>

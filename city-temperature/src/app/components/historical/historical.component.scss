@@ -1,16 +1,18 @@
-div {
+.main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  h1 {
+  .title{
     margin-top: 50px;
     color: blue;
   }
-  
-  img {
+  .chart {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     margin-top: 50px;
+    width: 60%;
   }
-  
   button {
     margin-top: 50px;
   }
