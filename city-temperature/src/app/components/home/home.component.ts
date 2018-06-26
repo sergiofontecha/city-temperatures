@@ -42,6 +42,7 @@ export class HomeComponent {
   // OnInit
   ngOnInit() {
     this._getTempretaures();
+    this._timer();
   }
 
   // Function to show cities temperatures screen
@@ -58,7 +59,6 @@ export class HomeComponent {
       const time = this._services.addZero(hour) + ':' + this._services.addZero(minutes);
 
       this._services.getTemperatures(city).subscribe(
-        // (res) => this.citiesTemperatures.push(res),
         (res) => { this.addNewData(res.main.temp, res.name, time);
                    this.citiesTemperatures.push(res);
                   },
@@ -67,8 +67,40 @@ export class HomeComponent {
     });
   }
 
+  // Function to update cities temperature 
+  private _timer() {
+    setInterval(() => {
+      this._getNewTemperatures();
+    }, 15000);
+  }
+
+  // Function to get cities temperatures
+  private _getNewTemperatures() {
+    let newInfo = [];
+
+    this._cities.forEach((city) => {
+      const date = new Date();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const time = hour + ':' + minutes;
+
+      this._services.getTemperatures(city).subscribe(
+        (res) => {  this.addNewData(res.main.temp, res.name, time);
+                    setInterval(this._replace(res), 18000);
+                  },
+        (error) => console.error('error', error)
+      );
+    });
+  }
+
   // Function to add new Cities temperatures to the store
   private addNewData(temp, name, time) {
     this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
+  }
+
+  // Function to replace last temperatures for new one
+  private _replace(newInfo) {
+    const index = this.citiesTemperatures.findIndex((item) => item[name] === newInfo.name);
+    this.citiesTemperatures.splice(index, 1, newInfo);
   }
 }

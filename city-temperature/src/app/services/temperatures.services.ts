@@ -25,7 +25,7 @@ export class ApiServices {
   }
 
   public addZero(number) {
-    if (number < 10 && number !== 0) {
+    if (number < 10) {
       return '0' + number;
     } else {
       return number;

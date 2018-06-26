@@ -23,7 +23,6 @@ export class TemperaturesComponent implements OnInit {
   public home: boolean;
   public showHistorical: boolean;
   public citiesNewInfo: Array<any>;
-  public cityHistorical: any;
   public city: string;
   private _cities: Array<string>;
   
@@ -45,7 +44,6 @@ export class TemperaturesComponent implements OnInit {
     this.home = false;
     this.showHistorical = false;
     this.citiesNewInfo = this.citiesTemperatures;
-    this._timer();
   }
 
   // Function to show historical temperatures
@@ -59,40 +57,8 @@ export class TemperaturesComponent implements OnInit {
     this.home = true;
   }
 
-  // Function to update cities temperature 
-  private _timer() {
-    setInterval(() => {
-      this._getNewTemperatures();
-    }, 175000);
-  }
-
-  // Function to get cities temperatures
-  private _getNewTemperatures() {
-    let newInfo = [];
-
-    this._cities.forEach((city) => {
-      const date = new Date();
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
-      const time = hour + ':' + minutes;
-
-      this._services.getTemperatures(city).subscribe(
-        (res) => {  this.addNewData(res.main.temp, res.name, time);
-                    setInterval(this._replace(res), 180000);
-                  },
-        (error) => console.error('error', error)
-      );
-    });
-  }
-
   // Function to add new Cities temperatures to the store
   private addNewData(temp, name, time) {
     this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
-  }
-
-  // Function to replace last temperatures for new one
-  private _replace(newInfo) {
-    const index = this.citiesNewInfo.findIndex((item) => item.name === newInfo.name);
-    this.citiesNewInfo.splice(index, 1, newInfo);
   }
 }
