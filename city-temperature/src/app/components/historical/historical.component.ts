@@ -1,6 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs/observable';
+import { Store } from '@ngrx/store';
 
 import { TemperaturesComponent } from '../temperatures/temperatures.component';
+import { AppState } from '../../reducers/cityTempretatures.states';
+
+import {Data} from '../../models/temperatures.model';
 
 @Component({
   selector: 'historical-component',
@@ -14,16 +19,21 @@ export class HistoricalComponent implements OnInit {
   @Input()
   public city: string;
 
+  public data: Observable<Data[]>;
   public chartOptions = {
     responsive: true
   };
   public chartData = [
-    { data: [330, 600, 260, 700], label: 'Account A' },
-    { data: [120, 455, 100, 340], label: 'Account B' },
-    { data: [45, 67, 800, 500], label: 'Account C' }
+    { }
   ];
-  public chartLabels = ['January', 'February', 'Mars', 'April'];
+  public chartLabels = [];
   public leaveScreen: boolean;
+
+  // Constructor
+  constructor(private store: Store<AppState>) { 
+    this.data = store.select('data')
+    console.log('data', this.data);
+  }
 
   // OnInit
   ngOnInit() {
@@ -33,5 +43,6 @@ export class HistoricalComponent implements OnInit {
   // Function to come back to cities temperatures screen
   public goToCitiesTemperatures() {
     this.leaveScreen = true;
+
   }
 }

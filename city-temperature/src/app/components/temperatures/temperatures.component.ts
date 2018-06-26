@@ -1,8 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { AppComponent } from '../../app.component';
+import { AppState } from '../../reducers/cityTempretatures.states';
+import * as temperaturesActions from '../../actions/temperatures.actions';
 
 import { ApiServices } from '../../services/temperatures.services';
+
+import {Data} from '../../models/temperatures.model';
 
 @Component({
   selector: 'temperatures-component',
@@ -24,7 +29,8 @@ export class TemperaturesComponent implements OnInit {
   
    // Constructor
    constructor(
-     private _services: ApiServices
+     private _services: ApiServices,
+     private store: Store<AppState>
    ) {
     this._cities = [
       'Santiago',
@@ -63,11 +69,20 @@ export class TemperaturesComponent implements OnInit {
   // Function to get cities temperatures
   private _getNewTemperatures() {
     this._cities.forEach((city) => {
+      const date = new Date();
+
       this._services.getTemperatures(city).subscribe(
-        (res) =>  this._replace(res),
+        (res) =>  {this._replace(res);
+                   this.addNewData(res.main.temp, res.name, date);
+                  },
         (error) => console.error('error', error)
       );
     });
+  }
+
+  // Function to add new Cities temperatures to the store
+  private addNewData(temp, name, date) {
+    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, date:date}))
   }
 
   // Function to replace last temperatures for new one

@@ -1,5 +1,11 @@
 <!-- HISTORICAL VIEW -->
-<div class="main" *ngIf="!leaveScreen">
+<div class="store">
+  <h3>Store</h3>
+    <p>{{data.actionsObserver._value.payload.temp}}</p>
+    <p>{{data.actionsObserver._value.payload.date | date: 'shortTime'}}</p>
+</div>
+
+<!-- <div class="main" *ngIf="!leaveScreen">
   <div class="title">
     <h1>{{city}}´s historical temperatures</h1>
   </div>
@@ -14,7 +20,7 @@
     </canvas>
   </div>
   <button type="button" class="btn btn-info" (click)="goToCitiesTemperatures()">Leave Historical</button>
-</div>
+</div> -->
 
 <!-- CITIES TEMPERATURES VIEW -->
 <temperatures-component *ngIf="leaveScreen"></temperatures-component>
