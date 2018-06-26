@@ -24,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     ChartsModule,
-    StoreModule.forRoot({reducers})
+    StoreModule.forRoot({data: reducers})
   ],
   providers: [ApiServices],
   bootstrap: [AppComponent]

@@ -53,10 +53,13 @@ export class HomeComponent {
   private _getTempretaures() {
     this._cities.forEach((city) => {
       const date = new Date();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const time = this._services.addZero(hour) + ':' + this._services.addZero(minutes);
 
       this._services.getTemperatures(city).subscribe(
         // (res) => this.citiesTemperatures.push(res),
-        (res) => { this.addNewData(res.main.temp, res.name, date);
+        (res) => { this.addNewData(res.main.temp, res.name, time);
                    this.citiesTemperatures.push(res);
                   },
         (error) => console.error('error', error)
@@ -65,7 +68,7 @@ export class HomeComponent {
   }
 
   // Function to add new Cities temperatures to the store
-  private addNewData(temp, name, date) {
-    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, date:date}))
+  private addNewData(temp, name, time) {
+    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
   }
 }

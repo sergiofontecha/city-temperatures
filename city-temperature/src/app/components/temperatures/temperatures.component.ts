@@ -63,17 +63,22 @@ export class TemperaturesComponent implements OnInit {
   private _timer() {
     setInterval(() => {
       this._getNewTemperatures();
-    }, 30000);
+    }, 175000);
   }
 
   // Function to get cities temperatures
   private _getNewTemperatures() {
+    let newInfo = [];
+
     this._cities.forEach((city) => {
       const date = new Date();
+      const hour = date.getHours();
+      const minutes = date.getMinutes();
+      const time = hour + ':' + minutes;
 
       this._services.getTemperatures(city).subscribe(
-        (res) =>  {this._replace(res);
-                   this.addNewData(res.main.temp, res.name, date);
+        (res) => {  this.addNewData(res.main.temp, res.name, time);
+                    setInterval(this._replace(res), 180000);
                   },
         (error) => console.error('error', error)
       );
@@ -81,8 +86,8 @@ export class TemperaturesComponent implements OnInit {
   }
 
   // Function to add new Cities temperatures to the store
-  private addNewData(temp, name, date) {
-    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, date:date}))
+  private addNewData(temp, name, time) {
+    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
   }
 
   // Function to replace last temperatures for new one
