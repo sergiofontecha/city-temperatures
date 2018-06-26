@@ -71,7 +71,7 @@ export class HomeComponent {
   private _timer() {
     setInterval(() => {
       this._getNewTemperatures();
-    }, 15000);
+    }, 175000);
   }
 
   // Function to get cities temperatures
@@ -86,7 +86,7 @@ export class HomeComponent {
 
       this._services.getTemperatures(city).subscribe(
         (res) => {  this.addNewData(res.main.temp, res.name, time);
-                    setInterval(this._replace(res), 18000);
+                    setInterval(this._replace(res), 180000);
                   },
         (error) => console.error('error', error)
       );
