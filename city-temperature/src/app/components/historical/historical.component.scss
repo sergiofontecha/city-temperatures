@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+  width: 100%;
+  height: 100%;
+
   .title{
     margin-top: 50px;
     color: blue;
@@ -12,6 +14,7 @@
       font-size: .8em;
     }
   }
+  
   .chart {
     display: flex;
     flex-direction: row;
@@ -19,6 +22,7 @@
     margin-top: 50px;
     width: 60%;
   }
+
   button {
     margin-top: 50px;
   }
