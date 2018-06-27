@@ -30,10 +30,11 @@ export class HistoricalComponent implements OnInit {
   ];
   public lineChartLabels:Array<any> = [];
   public lineChartOptions:any = {
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false
   };
   public lineChartColors:Array<any> = [
-    { // grey
+    { 
       backgroundColor: 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
