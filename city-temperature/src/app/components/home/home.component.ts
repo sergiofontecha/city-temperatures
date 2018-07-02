@@ -20,7 +20,7 @@ export class HomeComponent {
 
   // Component Properties
   public title = 'CitiesTemperature';
-  public check = false;
+  // public check = false;
   public citiesTemperatures: Array<object>;
   private _cities: Array<string>; 
 
@@ -46,9 +46,9 @@ export class HomeComponent {
   }
 
   // Function to show cities temperatures screen
-  public showCities() {
-    this.check = true;
-  }
+  // public showCities() {
+  //   this.check = true;
+  // }
 
   // Function to get the cities temperatures
   private _getTempretaures() {

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/observable';
 import { Store } from '@ngrx/store';
 
 import { AppComponent } from '../../app.component';
@@ -17,20 +18,23 @@ import {Data} from '../../models/temperatures.model';
 
 export class TemperaturesComponent implements OnInit {
   // Component Properties
-  @Input()
-  public citiesTemperatures: Array<object>;
-  
-  public home: boolean;
-  public showHistorical: boolean;
+  // @Input()
+  // Temperatures
+  // public citiesTemperatures: Array<object>;
+  public data: Observable<Data[]>;
   public citiesNewInfo: Array<any>;
   public city: string;
   private _cities: Array<string>;
+  
+  // public home: boolean;
+  // public showHistorical: boolean;
   
    // Constructor
    constructor(
      private _services: ApiServices,
      private store: Store<AppState>
    ) {
+    this.data = store.select('data'); 
     this._cities = [
       'Santiago',
       'Buenos Aires',
@@ -41,21 +45,20 @@ export class TemperaturesComponent implements OnInit {
 
   // OnInit
   ngOnInit() {
-    this.home = false;
-    this.showHistorical = false;
-    this.citiesNewInfo = this.citiesTemperatures;
+    // this.home = false;
+    // this.showHistorical = false;
   }
 
   // Function to show historical temperatures
-  public getHistorical(city: string) {
-    this.city = city;
-    this.showHistorical = true;
-  }
+  // public getHistorical(city: string) {
+  //   this.city = city;
+  //   // this.showHistorical = true;
+  // }
 
   // Function to come back home screen
-  public goHome() {
-    this.home = true;
-  }
+  // public goHome() {
+  //   this.home = true;
+  // }
 
   // Function to add new Cities temperatures to the store
   private addNewData(temp, name, time) {

@@ -4,10 +4,6 @@
     Welcome to {{ title }}!
   </h1>
   <img width="300" alt="CityTemperature Logo" src="../assets/images/thermometer.jpeg">
-  <button type="button" class="btn btn-info" (click)="showCities()">Check Temperatures</button>
+  <!-- <button type="button" class="btn btn-info" (click)="showCities()">Check Temperatures</button> -->
+  <a routerLink="/temperatures"><button type="button" class="btn btn-info">Check Temperatures</button></a>
 </div>
-<!-- TEMPERATURES VIEW -->
-<temperatures-component 
-  *ngIf="check"
-  [citiesTemperatures]="citiesTemperatures">
-</temperatures-component>
