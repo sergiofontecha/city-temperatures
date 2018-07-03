@@ -8,9 +8,9 @@ import { HistoricalComponent } from './components/historical/historical.componen
 const routes = [
   {path: 'home', component: HomeComponent, data: { title: 'Wellcome To Cities Temperatures' }},
   {path: 'temperatures', component: TemperaturesComponent, data: { title: 'Current Cities Temperatures' }},
-  {path: 'historical', component: HistoricalComponent, data: { title: '´s Historical Temperatures' }},
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home', pathMatch: 'full'}
+  {path: 'historical/:city', component: HistoricalComponent, data: { title: '´s Historical Temperatures' }},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({

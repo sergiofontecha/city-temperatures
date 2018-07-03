@@ -1,9 +1,14 @@
 <!-- HOME -->
-<div style="text-align:center" *ngIf="!check">
+<div style="text-align:center" *ngIf="!show">
   <h1>
     Welcome to {{ title }}!
   </h1>
   <img width="300" alt="CityTemperature Logo" src="../assets/images/thermometer.jpeg">
-  <!-- <button type="button" class="btn btn-info" (click)="showCities()">Check Temperatures</button> -->
-  <a routerLink="/temperatures"><button type="button" class="btn btn-info">Check Temperatures</button></a>
+  <button type="button" class="btn btn-primary" (click)="_showTemperatures()">Check Temperatures</button>
 </div>
+
+<!-- TEMPERATURES VIEW -->
+<temperatures-component
+  *ngIf="show"
+  [citiesTemperatures]='citiesTemperatures'>
+</temperatures-component>

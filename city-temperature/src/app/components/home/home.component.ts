@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { TemperaturesComponent } from '../temperatures/temperatures.component';
+// import { TemperaturesComponent } from '../temperatures/temperatures.component';
 import { AppState } from '../../reducers/cityTempretatures.states';
 import * as temperaturesActions from '../../actions/temperatures.actions';
 
 import { ApiServices } from '../../services/temperatures.services';
 
-import {Data} from '../../models/temperatures.model';
+// import { Data } from '../../models/temperatures.model';
 
 @Component({
   selector: 'home-component',
@@ -16,11 +16,11 @@ import {Data} from '../../models/temperatures.model';
 })
 
 // MAIN CLASS
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   // Component Properties
   public title = 'CitiesTemperature';
-  // public check = false;
+  public show = false;
   public citiesTemperatures: Array<object>;
   private _cities: Array<string>; 
 
@@ -45,11 +45,6 @@ export class HomeComponent {
     this._timer();
   }
 
-  // Function to show cities temperatures screen
-  // public showCities() {
-  //   this.check = true;
-  // }
-
   // Function to get the cities temperatures
   private _getTempretaures() {
     this._cities.forEach((city) => {
@@ -61,17 +56,23 @@ export class HomeComponent {
       this._services.getTemperatures(city).subscribe(
         (res) => { this.addNewData(res.main.temp, res.name, time);
                    this.citiesTemperatures.push(res);
+                  //  Object.keys(this.citiesTemperatures).sort();
+                  //  console.log('ordedCities', this.citiesTemperatures);
                   },
         (error) => console.error('error', error)
       )
     });
   }
 
+  private _showTemperatures() {
+    this.show = true;  
+  }
+
   // Function to update cities temperature 
   private _timer() {
     setInterval(() => {
       this._getNewTemperatures();
-    }, 175000);
+    }, 1500000);
   }
 
   // Function to get cities temperatures
@@ -85,12 +86,15 @@ export class HomeComponent {
       const time = hour + ':' + minutes;
 
       this._services.getTemperatures(city).subscribe(
-        (res) => {  this.addNewData(res.main.temp, res.name, time);
-                    setInterval(this._replace(res), 180000);
-                  },
+        (res) => { this.addNewData(res.main.temp, res.name, time);
+                   newInfo.push(res); 
+                 },
         (error) => console.error('error', error)
+        // () => this._replace(newInfo)
       );
     });
+
+    this._replace(newInfo);
   }
 
   // Function to add new Cities temperatures to the store
@@ -100,7 +104,11 @@ export class HomeComponent {
 
   // Function to replace last temperatures for new one
   private _replace(newInfo) {
-    const index = this.citiesTemperatures.findIndex((item) => item[name] === newInfo.name);
-    this.citiesTemperatures.splice(index, 1, newInfo);
+    // console.log('res', newInfo);
+    newInfo.forEach((city) => {
+      const index = this.citiesTemperatures.findIndex((item) => item[name] === city.name);
+      this.citiesTemperatures.splice(index, 1, city);
+    });
+    this._services.emit(this.citiesTemperatures);
   }
 }
