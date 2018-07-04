@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-// import { TemperaturesComponent } from '../temperatures/temperatures.component';
 import { AppState } from '../../reducers/cityTempretatures.states';
 import * as temperaturesActions from '../../actions/temperatures.actions';
 
 import { ApiServices } from '../../services/temperatures.services';
-
-// import { Data } from '../../models/temperatures.model';
 
 @Component({
   selector: 'home-component',
@@ -20,8 +17,6 @@ export class HomeComponent implements OnInit {
 
   // Component Properties
   public title = 'CitiesTemperature';
-  public show = false;
-  public citiesTemperatures: Array<object>;
   private _cities: Array<string>; 
 
   //Constructor
@@ -35,8 +30,6 @@ export class HomeComponent implements OnInit {
       'Lima',
       'Sao Paulo'
     ];
-
-    this.citiesTemperatures = [];
   }
 
   // OnInit
@@ -54,18 +47,10 @@ export class HomeComponent implements OnInit {
       const time = this._services.addZero(hour) + ':' + this._services.addZero(minutes);
 
       this._services.getTemperatures(city).subscribe(
-        (res) => { this.addNewData(res.main.temp, res.name, time);
-                   this.citiesTemperatures.push(res);
-                  //  Object.keys(this.citiesTemperatures).sort();
-                  //  console.log('ordedCities', this.citiesTemperatures);
-                  },
+        (res) =>  this.addNewData(res.main.temp, res.name, time),
         (error) => console.error('error', error)
       )
     });
-  }
-
-  private _showTemperatures() {
-    this.show = true;  
   }
 
   // Function to update cities temperature 
@@ -86,15 +71,10 @@ export class HomeComponent implements OnInit {
       const time = hour + ':' + minutes;
 
       this._services.getTemperatures(city).subscribe(
-        (res) => { this.addNewData(res.main.temp, res.name, time);
-                   newInfo.push(res); 
-                 },
+        (res) =>  this.addNewData(res.main.temp, res.name, time),
         (error) => console.error('error', error)
-        // () => this._replace(newInfo)
       );
     });
-
-    this._replace(newInfo);
   }
 
   // Function to add new Cities temperatures to the store
@@ -103,12 +83,12 @@ export class HomeComponent implements OnInit {
   }
 
   // Function to replace last temperatures for new one
-  private _replace(newInfo) {
-    // console.log('res', newInfo);
-    newInfo.forEach((city) => {
-      const index = this.citiesTemperatures.findIndex((item) => item[name] === city.name);
-      this.citiesTemperatures.splice(index, 1, city);
-    });
-    this._services.emit(this.citiesTemperatures);
-  }
+  // private _replace(newInfo) {
+  //   console.log('res', newInfo);
+  //   newInfo.forEach((city) => {
+  //     const index = this.citiesTemperatures.findIndex((item) => item[name] === city.name);
+  //     this.citiesTemperatures.splice(index, 1, city);
+  //   });
+  //   this._services.emit(this.citiesTemperatures);
+  // }
 }
