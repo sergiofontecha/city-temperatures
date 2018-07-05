@@ -66,5 +66,6 @@ export class HistoricalComponent implements OnInit {
         }
       }
     });
+    this.lineChartData.update();
   }
 }

@@ -7,7 +7,7 @@
     <li class="card" *ngFor="let city of citiesNewInfo">
       <div class="card-body">
         <h5 class="card-title">{{city.name}}</h5>
-        <p class="card-text">The actual temperature in {{city.name}} is <strong>{{city.main.temp}} ºC</strong></p>
+        <p class="card-text">The actual temperature in {{city.name}} is <strong>{{city.temp}} ºC</strong></p>
         <a [routerLink]="['/historical', city.name]"><button type="button" class="btn btn-primary">Show Historical</button></a>
       </div>
     </li>

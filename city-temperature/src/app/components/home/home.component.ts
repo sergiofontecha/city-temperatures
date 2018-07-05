@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
   private _timer() {
     setInterval(() => {
       this._getNewTemperatures();
-    }, 1500000);
+    }, 15000);
   }
 
   // Function to get cities temperatures

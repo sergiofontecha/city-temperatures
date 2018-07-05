@@ -24,7 +24,7 @@
       margin-top: 30px;
       width: 38%;
       height: 170px;
-      box-shadow: 2px 4px 12px #f1ecec;
+      box-shadow: 4px 5px 12px #e0dbde;
 
       .card-body {
         display: flex;
@@ -38,7 +38,7 @@
         width: 95%;
       }
 
-      button {
+      .card button {
         align-self: center;
       }
 
@@ -47,6 +47,9 @@
         margin: 6px 0;
       }
     }
+  }
+  button {
+    margin-top: 30px;
   }
 }
 
