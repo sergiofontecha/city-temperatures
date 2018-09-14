@@ -1,13 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/observable';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
-import { TemperaturesComponent } from '../temperatures/temperatures.component';
 import { AppState } from '../../reducers/cityTempretatures.states';
 
-import { ApiServices } from '../../services/temperatures.services';
-
-import {Data} from '../../models/temperatures.model';
+import { Data } from '../../models/temperatures.model';
 
 @Component({
   selector: 'historical-component',
@@ -18,15 +16,11 @@ import {Data} from '../../models/temperatures.model';
 export class HistoricalComponent implements OnInit {
 
   // Componenet Properties
-  @Input()
   public city: string;
 
-  public citiesTemperatures: Array<object>;
-  public data: Observable<Data[]>;
-  public leaveScreen: boolean;
-  // lineChart
+  // Chart
   public lineChartData:Array<any> = [
-    {data: [], label: 'Historico'},
+    { data: [], label: 'Historico' },
   ];
   public lineChartLabels:Array<any> = [];
   public lineChartOptions:any = {
@@ -46,54 +40,25 @@ export class HistoricalComponent implements OnInit {
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
 
-  private _cities: Array<string>; 
+  private _data: Observable<Data[]>;
 
   // Constructor
   constructor(
-    private _services: ApiServices,
-    private store: Store<AppState>
+    private _store: Store<AppState>,
+    private _route: ActivatedRoute
   ) { 
-    this.data = store.select('data');
-    this.citiesTemperatures = [];
-    this._cities = [
-      'Santiago',
-      'Buenos Aires',
-      'Lima',
-      'Sao Paulo'
-    ];
+    this._data = this._store.select('data');
+    this.city = this._route.snapshot.paramMap.get('city');
   }
 
   // OnInit
   ngOnInit() {
     this._feedChart();
-    this.leaveScreen = false;
-  }
-
-  // Function to come back to cities temperatures screen
-  public goToCitiesTemperatures() {
-    this._getTempretaures();
-    this.leaveScreen = true;
-
-  }
-
-  // Function to get the cities temperatures
-  private _getTempretaures() {
-    this._cities.forEach((city) => {
-      const date = new Date();
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
-      const time = this._services.addZero(hour) + ':' + this._services.addZero(minutes);
-
-      this._services.getTemperatures(city).subscribe(
-        (res) => this.citiesTemperatures.push(res),
-        (error) => console.error('error', error)
-      )
-    });
   }
 
   // Creating data to show city´s historical into a chart
   private _feedChart() {
-    this.data.forEach(temperature => {
+    this._data.forEach(temperature => {
       for (const item of temperature) {
         if(item.name === this.city) {
           this.lineChartData[0].data.push(item.temp);
@@ -101,5 +66,6 @@ export class HistoricalComponent implements OnInit {
         }
       }
     });
+    // this.lineChartData[0].update();
   }
 }

@@ -2,7 +2,7 @@
 
 <div class="main" *ngIf="!leaveScreen">
   <div class="title">
-    <h1>{{city}}´s historical temperatures</h1>
+    <h1>Historical temperatures in {{city}}</h1>
   </div>
   <div class="chart">
     <canvas baseChart width="400" height="400"
@@ -13,10 +13,6 @@
       [legend]="lineChartLegend"
       [chartType]="lineChartType"></canvas>
   </div>
-  <button type="button" class="btn btn-info" (click)="goToCitiesTemperatures()">Leave Historical</button>
+  <!-- <button type="button" class="btn btn-info">Leave Historical</button> -->
+  <a routerLink="/temperatures"><button type="button" class="btn btn-info">Leave Historical</button></a>
 </div>
-
-<!-- CITIES TEMPERATURES VIEW -->
-<temperatures-component *ngIf="leaveScreen"
-  [citiesTemperatures]="citiesTemperatures">>
-</temperatures-component>

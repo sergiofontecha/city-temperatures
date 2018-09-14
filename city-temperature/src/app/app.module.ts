@@ -5,9 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './reducers/temperatures.reducers';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { TemperaturesComponent } from './components/temperatures/temperatures.component';
-import { HistoricalComponent } from './components/historical/historical.component';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 
 import { ApiServices } from './services/temperatures.services';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,13 +14,12 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    TemperaturesComponent,
-    HistoricalComponent
+    routingComponents
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    AppRoutingModule,
     ChartsModule,
     StoreModule.forRoot({data: reducers})
   ],

@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { Data } from '../models/temperatures.model';
 import * as temperaturesActions from '../actions/temperatures.actions';
 

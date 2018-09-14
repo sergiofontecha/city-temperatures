@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
 
-import { AppComponent } from '../../app.component';
+import { Observable } from 'rxjs/observable';
+import { Store } from '@ngrx/store';
+import * as _ from 'lodash';
+
 import { AppState } from '../../reducers/cityTempretatures.states';
-import * as temperaturesActions from '../../actions/temperatures.actions';
 
 import { ApiServices } from '../../services/temperatures.services';
 
-import {Data} from '../../models/temperatures.model';
+import { Data } from '../../models/temperatures.model';
 
 @Component({
   selector: 'temperatures-component',
@@ -17,48 +18,50 @@ import {Data} from '../../models/temperatures.model';
 
 export class TemperaturesComponent implements OnInit {
   // Component Properties
-  @Input()
-  public citiesTemperatures: Array<object>;
-  
-  public home: boolean;
-  public showHistorical: boolean;
   public citiesNewInfo: Array<any>;
-  public city: string;
-  private _cities: Array<string>;
-  
-   // Constructor
-   constructor(
-     private _services: ApiServices,
-     private store: Store<AppState>
-   ) {
-    this._cities = [
-      'Santiago',
-      'Buenos Aires',
-      'Lima',
-      'Sao Paulo'
-    ];
-   }
+
+  private _data: Observable<Data[]>;
+  private _dataInArray = [];
+
+  // Constructor
+  constructor(
+    private _services: ApiServices,
+    private _store: Store<AppState>
+  ) {}
 
   // OnInit
   ngOnInit() {
-    this.home = false;
-    this.showHistorical = false;
-    this.citiesNewInfo = this.citiesTemperatures;
+    this._data = this._store.select('data');
+    this._takingActualTemperatures();
+    this._timer();
   }
 
-  // Function to show historical temperatures
-  public getHistorical(city: string) {
-    this.city = city;
-    this.showHistorical = true;
+  // Timer to update data to show in the view
+  private _timer() {
+    setInterval(() => {
+      this._data = this._store.select('data');
+      this._takingActualTemperatures();
+    }, 15000);
   }
 
-  // Function to come back home screen
-  public goHome() {
-    this.home = true;
+  // Function to select from data the actual temperatures
+  private _takingActualTemperatures() {
+    this._dataInArray = [];
+    this.citiesNewInfo = [];
+
+    this._data.forEach(item => {
+      this._dataInArray.push(item);
+    });
+
+    this._dataInArray = _.flatten(this._dataInArray);
+
+    for( let i = 1; i <= 4; i++ ) {
+      this.citiesNewInfo.push(this._dataInArray[this._dataInArray.length - i]);
+    }
+    this._arrayOrder();
   }
 
-  // Function to add new Cities temperatures to the store
-  private addNewData(temp, name, time) {
-    this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
+  private _arrayOrder() {
+    this.citiesNewInfo = _.orderBy(this.citiesNewInfo, ['name'], ['asc']);
   }
 }
