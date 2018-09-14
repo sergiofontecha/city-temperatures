@@ -34,12 +34,12 @@ export class HomeComponent implements OnInit {
 
   // OnInit
   ngOnInit() {
-    this._getTempretaures();
+    this._getTempetaures();
     this._timer();
   }
 
   // Function to get the cities temperatures
-  private _getTempretaures() {
+  public _getTempetaures() {
     this._cities.forEach((city) => {
       const date = new Date();
       const hour = date.getHours();
@@ -56,39 +56,12 @@ export class HomeComponent implements OnInit {
   // Function to update cities temperature 
   private _timer() {
     setInterval(() => {
-      this._getNewTemperatures();
+      this._getTempetaures();
     }, 15000);
-  }
-
-  // Function to get cities temperatures
-  private _getNewTemperatures() {
-    let newInfo = [];
-
-    this._cities.forEach((city) => {
-      const date = new Date();
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
-      const time = hour + ':' + minutes;
-
-      this._services.getTemperatures(city).subscribe(
-        (res) =>  this.addNewData(res.main.temp, res.name, time),
-        (error) => console.error('error', error)
-      );
-    });
   }
 
   // Function to add new Cities temperatures to the store
   private addNewData(temp, name, time) {
     this.store.dispatch(new temperaturesActions.historicalTemp({temp: temp, name: name, time: time}))
   }
-
-  // Function to replace last temperatures for new one
-  // private _replace(newInfo) {
-  //   console.log('res', newInfo);
-  //   newInfo.forEach((city) => {
-  //     const index = this.citiesTemperatures.findIndex((item) => item[name] === city.name);
-  //     this.citiesTemperatures.splice(index, 1, city);
-  //   });
-  //   this._services.emit(this.citiesTemperatures);
-  // }
 }

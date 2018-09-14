@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-// import { ActivedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/observable';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 
 import { AppState } from '../../reducers/cityTempretatures.states';
-// import * as temperaturesActions from '../../actions/temperatures.actions';
 
 import { ApiServices } from '../../services/temperatures.services';
 
